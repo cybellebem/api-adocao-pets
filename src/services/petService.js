@@ -1,31 +1,34 @@
+const appError = require('../utils/appError');
+
+const { validateRequiredString } = require('../utils/validators');
+
 const PetModel = require('../models/petModel');
 
 class PetService {
-  // GET /pets
   static async getAllPets() {
     return await PetModel.getAllPets();
   }
 
-  // GET /pets/available
   static async getAvailablePets() {
     return await PetModel.getAvailablePets();
   }
 
-  // GET /pets/:id
   static async getPetById(id) {
     const pet = await PetModel.getPetById(id);
 
     if (!pet) {
-      const error = new Error('Pet não encontrado');
-      error.statusCode = 404;
-      throw error;
+      throw appError('Pet não encontrado', 404);
     }
 
     return pet;
   }
 
-  // POST /pets
   static async createPet(data) {
+    validateRequiredString(data.name, 'Name');
+    validateRequiredString(data.species, 'Species');
+    validateRequiredString(data.size, 'Size');
+    validateRequiredString(data.description, 'Description');
+
     return await PetModel.createPet({
       name: data.name,
       age: data.age,
@@ -35,35 +38,38 @@ class PetService {
     });
   }
 
-  // PUT /pets/:id
   static async updatePet(id, data) {
     const pet = await PetModel.getPetById(id);
 
     if (!pet) {
-      const error = new Error('Pet não encontrado');
-      error.statusCode = 404;
-      throw error;
+      throw appError('Pet não encontrado', 404);
     }
 
-    await PetModel.updatePet(id, data);
+    validateRequiredString(data.name, 'Nome');
+    validateRequiredString(data.species, 'Espécie');
+    validateRequiredString(data.size, 'Tamanho');
+    validateRequiredString(data.description, 'Descrição');
+
+    await PetModel.updatePet(id, {
+      name: data.name,
+      age: data.age,
+      species: data.species,
+      size: data.size,
+      description: data.description,
+    });
 
     return await PetModel.getPetById(id);
   }
 
-  // DELETE /pets/:id
   static async deletePet(id) {
     const pet = await PetModel.getPetById(id);
 
     if (!pet) {
-      const error = new Error('Pet não encontrado');
-      error.statusCode = 404;
-      throw error;
+      throw appError('Pet não encontrado', 404);
     }
 
     if (pet.status === 'adopted') {
-      const error = new Error('Pets adotados não podem ser removidos');
-      error.statusCode = 400;
-      throw error;
+      throw appError('Pets adotados não podem ser removidos', 400);
     }
 
     await PetModel.deletePet(id);

@@ -7,7 +7,7 @@ class PetModel {
     return rows;
   }
 
-  // Retorna os pets disponíveis para adoção --> única rota de pets que é pública /pets/available
+  // GET /pets/available
   static async getAvailablePets() {
     const [rows] = await db.query(
       'SELECT * FROM pets WHERE status = "available"'
@@ -15,13 +15,13 @@ class PetModel {
     return rows;
   }
 
-  // Busca pet por id (usado pelo admin) /pets/:id
+  // GET /pets/:id
   static async getPetById(id) {
     const [rows] = await db.query('SELECT * FROM pets WHERE id = ?', [id]);
     return rows[0];
   }
 
-  // Inserir um novo pet name, age, species, size, status, description
+  // POST /pets
   static async createPet({ name, age, species, size, description }) {
     const [result] = await db.query(
       `INSERT INTO pets
@@ -41,31 +41,26 @@ class PetModel {
     };
   }
 
-  // Atualizar status do pet (usado para marcar como adotado) /adoptions
+  // POST /adoptions
   static async updatePetStatus(id, status) {
     await db.query('UPDATE pets SET status = ? WHERE id = ?', [status, id]);
   }
 
-  // Atualizar um pet existente
-  static async updatePet(id, data) {
-    await this.getPetById(id);
-
-    await PetModel.updatePet(id, data);
-
-    return await PetModel.getPetById(id);
+  static async updatePet(id, { name, age, species, size, description }) {
+    await db.query(
+      `UPDATE pets
+     SET name = ?,
+         age = ?,
+         species = ?,
+         size = ?,
+         description = ?
+     WHERE id = ?`,
+      [name, age, species, size, description, id]
+    );
   }
 
   static async deletePet(id) {
-    const pet = await this.getPetById(id);
-
-    if (pet.status === 'adopted') {
-      const error = new Error('Pets adotados não podem ser removidos');
-
-      error.statusCode = 400;
-      throw error;
-    }
-
-    await PetModel.deletePet(id);
+    await db.query('DELETE FROM pets WHERE id = ?', [id]);
   }
 }
 module.exports = PetModel;

@@ -1,11 +1,11 @@
-const AuthService = require('../services/authService');
+const LoginService = require('../services/loginService');
 
-class AuthController {
+class LoginController {
   static async login(req, res) {
     try {
       const { email, password } = req.body;
 
-      const result = await AuthService.login(email, password);
+      const result = await LoginService.login(email, password);
 
       return res.status(200).json(result);
     } catch (error) {
@@ -16,4 +16,4 @@ class AuthController {
   }
 }
 
-module.exports = AuthController;
+module.exports = LoginController;

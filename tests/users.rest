@@ -1,0 +1,69 @@
+@baseURL = http://localhost:3000
+@token = COLE_SEU_TOKEN_AQUI
+
+
+# ---- /users ----
+
+# --- Rotas Públicas ---
+
+### POST /users
+# Cadastrar novo usuário
+POST {{baseURL}}/users
+Content-Type: application/json
+
+{
+"name": "Pedro Santos",
+"email": "pedro@email.com",
+"password": "123",
+"phone": "51999999999"
+}
+
+###
+
+# Cadastrar usuário com email repetido
+POST {{baseURL}}/users
+Content-Type: application/json
+
+{
+"name": "Pedro Santos",
+"email": "alice@email.com",
+"password": "123",
+"phone": "51999999999"
+}
+
+###
+
+# --- Rotas Protegidas (Admin) ---
+
+### GET /users (somente admin)
+# Listar usuários
+GET {{baseURL}}/users
+Authorization: Bearer {{token}}
+
+###
+
+### GET /users/:id (somente admin e usuário próprio)
+# Buscar usuário por ID
+GET {{baseURL}}/users/2
+Authorization: Bearer {{token}}
+
+###
+
+# Atualizar usuário (somente admin e usuário próprio)
+PUT {{baseURL}}/users/2
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+"name": "Alice Atualizada",
+"email": "alice@email.com",
+"phone": "51988888888"
+}
+
+###
+
+# Excluir usuário
+DELETE {{baseURL}}/users/4
+Authorization: Bearer {{token}}
+
+###

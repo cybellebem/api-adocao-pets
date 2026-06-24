@@ -1,5 +1,9 @@
 USE pets_db;
 
+-- =====================
+-- USERS
+-- =====================
+
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -8,6 +12,10 @@ CREATE TABLE IF NOT EXISTS users (
     phone VARCHAR(20),
     role VARCHAR(20) NOT NULL
 );
+
+-- =====================
+-- PETS
+-- =====================
 
 CREATE TABLE IF NOT EXISTS pets (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -18,6 +26,10 @@ CREATE TABLE IF NOT EXISTS pets (
     status VARCHAR(20) NOT NULL,
     description TEXT
 );
+
+-- =====================
+-- ADOPTIONS
+-- =====================
 
 CREATE TABLE IF NOT EXISTS adoptions (
     id INT AUTO_INCREMENT PRIMARY KEY,

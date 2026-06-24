@@ -1,46 +1,23 @@
+const appError = require('../utils/appError');
+
+const { validatePositiveInteger } = require('../utils/validators');
+
 const AdoptionModel = require('../models/adoptionModel');
-const UserModel = require('../models/userModel');
 const PetModel = require('../models/petModel');
 
 class AdoptionService {
   static async createAdoption(userId, petId) {
-    const user = await UserModel.getUserById(userId);
-
-    if (!user) {
-      const error = new Error('Usuário não encontrado');
-      error.statusCode = 404;
-      throw error;
-    }
-
-    if (user.role !== 'adopter') {
-      const error = new Error('Apenas adopters podem adotar pets');
-      error.statusCode = 400;
-      throw error;
-    }
+    validatePositiveInteger(userId, 'userId');
+    validatePositiveInteger(petId, 'petId');
 
     const pet = await PetModel.getPetById(petId);
 
     if (!pet) {
-      const error = new Error('Pet não encontrado');
-      error.statusCode = 404;
-      throw error;
+      throw appError('Pet não encontrado', 404);
     }
 
     if (pet.status !== 'available') {
-      const error = new Error('Pet não está disponível');
-      error.statusCode = 400;
-      throw error;
-    }
-
-    const alreadyAdopted = await AdoptionModel.getAdoptionByUserAndPet(
-      userId,
-      petId
-    );
-
-    if (alreadyAdopted) {
-      const error = new Error('Usuário já adotou este pet');
-      error.statusCode = 400;
-      throw error;
+      throw appError('Pet não está disponível', 400);
     }
 
     const adoption = await AdoptionModel.createAdoption({

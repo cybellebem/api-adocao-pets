@@ -1,0 +1,42 @@
+@baseURL = http://localhost:3000
+
+
+# ---- /login ----
+
+# --- Rotas Públicas ---
+
+### POST /login 
+
+# Admin
+POST {{baseURL}}/login
+Content-Type: application/json
+
+{
+"email": "admin@pets.com",
+"password": "321"
+}
+
+###
+
+# Adopter
+POST {{baseURL}}/login
+Content-Type: application/json
+
+{
+"email": "alice@email.com",
+"password": "123"
+}
+
+###
+
+# Login inválido
+
+POST {{baseURL}}/login
+Content-Type: application/json
+
+{
+"email": "inexistente@email.com",
+"password": "123456"
+}
+
+###

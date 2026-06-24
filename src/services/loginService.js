@@ -1,24 +1,20 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const appError = require('../utils/appError');
+
+const { validateEmail, validatePassword } = require('../utils/validators');
 
 const UserModel = require('../models/userModel');
 
-class AuthService {
+class LoginService {
   static async login(email, password) {
+    validateEmail(email);
+    validatePassword(password);
+
     const user = await UserModel.getUserByEmail(email);
 
-    if (!user) {
-      const error = new Error('Email ou senha inválidos');
-      error.statusCode = 401;
-      throw error;
-    }
-
-    const passwordMatch = await bcrypt.compare(password, user.password);
-
-    if (!passwordMatch) {
-      const error = new Error('Email ou senha inválidos');
-      error.statusCode = 401;
-      throw error;
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      throw appError('Email ou senha inválidos', 401);
     }
 
     const token = jwt.sign(
@@ -44,4 +40,4 @@ class AuthService {
   }
 }
 
-module.exports = AuthService;
+module.exports = LoginService;
