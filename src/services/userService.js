@@ -8,6 +8,7 @@ const {
 } = require('../utils/validators');
 
 const UserModel = require('../models/userModel');
+const AdoptionModel = require('../models/adoptionModel');
 
 class UserService {
   static async getAllUsers() {
@@ -87,6 +88,14 @@ class UserService {
 
     if (!user) {
       throw new appError('Usuário não encontrado', 404);
+    }
+    const adocao = await AdoptionModel.getAdoptionsByUserId(id);
+
+    if (adocao.length > 0) {
+      throw new appError(
+        'Não é possível deletar usuários que possuem adoções realizadas',
+        400
+      );
     }
 
     await UserModel.deleteUser(id);

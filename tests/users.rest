@@ -33,7 +33,7 @@ Content-Type: application/json
 
 ###
 
-# --- Rotas Protegidas (Admin) ---
+# --- Rotas Protegidas (admin ou próprio usuário) ---
 
 ### GET /users (somente admin)
 # Listar usuários
@@ -42,14 +42,14 @@ Authorization: Bearer {{token}}
 
 ###
 
-### GET /users/:id (somente admin e usuário próprio)
+### GET /users/:id (somente admin ou próprio usuário)
 # Buscar usuário por ID
 GET {{baseURL}}/users/2
 Authorization: Bearer {{token}}
 
 ###
 
-# Atualizar usuário (somente admin e usuário próprio)
+# Atualizar usuário (somente admin ou próprio usuário)
 PUT {{baseURL}}/users/2
 Authorization: Bearer {{token}}
 Content-Type: application/json
@@ -57,13 +57,14 @@ Content-Type: application/json
 {
 "name": "Alice Atualizada",
 "email": "alice@email.com",
-"phone": "51988888888"
+"password": "123",
+"phone": "51999999999"
 }
 
 ###
 
-# Excluir usuário
-DELETE {{baseURL}}/users/4
+# Excluir usuário (somente admin)
+DELETE {{baseURL}}/users/2
 Authorization: Bearer {{token}}
 
 ###
