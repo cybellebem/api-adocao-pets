@@ -30,6 +30,10 @@ class AdoptionService {
 
     return adoption;
   }
+
+  static async getAllAdoptions() {
+    return await AdoptionModel.getAllAdoptions();
+  }
 }
 
 module.exports = AdoptionService;

@@ -24,12 +24,6 @@ Authorization: Bearer {{token}}
 
 ###
 
-# Buscar pet inexistente
-GET {{baseURL}}/pets/999
-Authorization: Bearer {{token}}
-
-###
-
 # Criar pet
 POST {{baseURL}}/pets
 Authorization: Bearer {{token}}
@@ -40,6 +34,7 @@ Content-Type: application/json
 "age": 2,
 "species": "dog",
 "size": "large",
+"status": "available",
 "description": "Golden Retriever muito brincalhão e amigável"
 }
 
@@ -55,23 +50,8 @@ Content-Type: application/json
 "age": 3,
 "species": "dog",
 "size": "large",
+"status": "available",
 "description": "Muito dócil"
-}
-
-###
-
-# Tentar alterar status manualmente
-PUT {{baseURL}}/pets/1
-Authorization: Bearer {{token}}
-Content-Type: application/json
-
-{
-"name": "Thor",
-"age": 2,
-"species": "dog",
-"size": "large",
-"status": "adopted",
-"description": "Golden Retriever muito brincalhão e amigável"
 }
 
 ###
