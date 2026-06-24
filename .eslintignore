@@ -1,9 +1,0 @@
-# Ignora toda a pasta node_modules
-node_modules/
-# Ignora arquivos de build
-dist/
-build/
-# Ignora arquivos de teste
-tests/legacy/
-# Ignora um arquivo específico
-scripts/antigo.js

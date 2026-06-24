@@ -1,18 +1,27 @@
 @baseURL = http://localhost:3000
 @token = COLE_SEU_TOKEN_AQUI
 
+# ---- /adoptions ----
 
-### Listar adoções (admin)
+# --- Rotas Protegidas ---
+
+### GET /adoptions
+# Listar todas as adoções (somente admin)
 
 GET {{baseURL}}/adoptions
 Authorization: Bearer {{token}}
 
-### Adotar pet disponível (adopter)
+###
+
+### POST /adoptions
+# Adotar pet disponível (somente adopter)
 
 POST {{baseURL}}/adoptions
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-"petId": 3
+  "petId": 3
 }
+
+###

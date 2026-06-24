@@ -1,69 +1,82 @@
 @baseURL = http://localhost:3000
 @token = COLE_SEU_TOKEN_AQUI
 
-
-# ---- /PETS ----
+# ---- /pets ----
 
 # --- Rotas Públicas ---
 
-# Lista todos os pets com status "available" para adoção
+### GET /pets/available
+# Listar pets disponíveis para adoção
+
 GET {{baseURL}}/pets/available
 
 ###
 
-# --- Rotas Protegidas (Admin) ---
+# --- Rotas Protegidas (somente admin) ---
 
+### GET /pets
 # Listar todos os pets
+
 GET {{baseURL}}/pets
 Authorization: Bearer {{token}}
 
 ###
 
+### GET /pets/:id
 # Buscar pet por ID
+
 GET {{baseURL}}/pets/1
 Authorization: Bearer {{token}}
 
 ###
 
-# Criar pet
+### POST /pets
+# Cadastrar novo pet
+
 POST {{baseURL}}/pets
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-"name": "Thor",
-"age": 2,
-"species": "dog",
-"size": "large",
-"status": "available",
-"description": "Golden Retriever muito brincalhão e amigável"
+  "name": "Thor",
+  "age": 2,
+  "species": "dog",
+  "size": "large",
+  "status": "available",
+  "description": "Golden Retriever muito brincalhão e amigável"
 }
 
 ###
 
+### PUT /pets/:id
 # Atualizar pet
+
 PUT {{baseURL}}/pets/1
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-"name": "Thor Atualizado",
-"age": 3,
-"species": "dog",
-"size": "large",
-"status": "available",
-"description": "Muito dócil"
+  "name": "Thor Atualizado",
+  "age": 3,
+  "species": "dog",
+  "size": "large",
+  "status": "available",
+  "description": "Muito dócil"
 }
 
 ###
 
+### DELETE /pets/:id
 # Excluir pet disponível
+
 DELETE {{baseURL}}/pets/1
 Authorization: Bearer {{token}}
 
 ###
 
-# Excluir pet adotado
+### DELETE /pets/:id
+# Tentar excluir pet adotado
+
 DELETE {{baseURL}}/pets/2
 Authorization: Bearer {{token}}
 

@@ -3,10 +3,14 @@ import globals from 'globals';
 import { defineConfig } from 'eslint/config';
 import eslintPluginPrettier from 'eslint-plugin-prettier';
 import prettier from 'eslint-config-prettier';
+
 export default defineConfig([
-  // Regras recomendadas do ESLint
+  {
+    ignores: ['node_modules/**'],
+  },
+
   js.configs.recommended,
-  // Regras personalizadas + integração com Prettier
+
   {
     files: ['**/*.{js,cjs}'],
     languageOptions: {
@@ -18,13 +22,19 @@ export default defineConfig([
       prettier: eslintPluginPrettier,
     },
     rules: {
-      'prefer-const': 'error', // Use const se possível
-      'no-console': 'off', // Evita uso indiscriminado de console.log
-      'consistent-return': 'warn', // Retornos coerentes em funções
-      'prefer-template': 'warn', // Usa template strings ao invés de concatenação
-      'prettier/prettier': 'error', // Mostra erros de formatação do Prettier como erros do ESLint
+      'prefer-const': 'error',
+      'no-console': 'off',
+      'consistent-return': 'warn',
+      'prefer-template': 'warn',
+      'prettier/prettier': 'error',
+      'no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+        },
+      ],
     },
   },
-  // Desativa regras do ESLint que conflitam com o Prettier
+
   prettier,
 ]);

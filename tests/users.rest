@@ -1,69 +1,77 @@
 @baseURL = http://localhost:3000
 @token = COLE_SEU_TOKEN_AQUI
 
-
 # ---- /users ----
 
 # --- Rotas Públicas ---
 
 ### POST /users
 # Cadastrar novo usuário
+
 POST {{baseURL}}/users
 Content-Type: application/json
 
 {
-"name": "Pedro Santos",
-"email": "pedro@email.com",
-"password": "123",
-"phone": "51999999999"
+  "name": "Pedro Santos",
+  "email": "pedro@email.com",
+  "password": "123",
+  "phone": "51999999999"
 }
 
 ###
 
-# Cadastrar usuário com email repetido
+### POST /users
+# Tentar cadastrar usuário com email já existente
+
 POST {{baseURL}}/users
 Content-Type: application/json
 
 {
-"name": "Pedro Santos",
-"email": "alice@email.com",
-"password": "123",
-"phone": "51999999999"
+  "name": "Pedro Santos",
+  "email": "alice@email.com",
+  "password": "123",
+  "phone": "51999999999"
 }
 
 ###
 
-# --- Rotas Protegidas (admin ou próprio usuário) ---
+# --- Rotas Protegidas ---
 
-### GET /users (somente admin)
-# Listar usuários
+### GET /users
+# Listar usuários (somente admin)
+
 GET {{baseURL}}/users
 Authorization: Bearer {{token}}
 
 ###
 
-### GET /users/:id (somente admin ou próprio usuário)
-# Buscar usuário por ID
+### GET /users/:id
+# Buscar usuário por ID (admin ou próprio usuário)
+
 GET {{baseURL}}/users/2
 Authorization: Bearer {{token}}
 
 ###
 
-# Atualizar usuário (somente admin ou próprio usuário)
+### PUT /users/:id
+# Atualizar usuário (admin ou próprio usuário)
+
 PUT {{baseURL}}/users/2
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-"name": "Alice Atualizada",
-"email": "alice@email.com",
-"password": "123",
-"phone": "51999999999"
+  "name": "Alice Atualizada",
+  "email": "alice@email.com",
+  "password": "123",
+  "phone": "51999999999"
 }
 
 ###
 
+### DELETE /users/:id
 # Excluir usuário (somente admin)
+
 DELETE {{baseURL}}/users/2
 Authorization: Bearer {{token}}
 
