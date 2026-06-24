@@ -5,7 +5,5 @@ node_modules/
 # Sistema operacional
 Thumbs.db
 # Editor e IDE
-.vscode/
-# Build / dist (caso adicione futuramente)
-dist/
-build/
+.vscode/*
+!.vscode/settings.json
