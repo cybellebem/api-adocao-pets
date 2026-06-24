@@ -45,7 +45,7 @@ O sistema permite:
 Clone o repositório:
 
 ```bash
-git clone <url-do-repositorio>
+git clone https://github.com/cybellebem/api-adocao-pets
 cd api-adocao-pets
 ```
 
