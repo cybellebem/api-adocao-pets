@@ -1,28 +1,30 @@
 # api-adocao-pets
 
-## Descrição do projeto
+## Descrição
 
 API REST desenvolvida em Node.js para gerenciamento de adoção de pets.
 
-O sistema permite:
+O sistema permite o cadastro de usuários, autenticação via JWT, gerenciamento de pets e registro de adoções, aplicando regras de autorização baseadas em perfis de acesso.
 
-- Cadastro e autenticação de usuários utilizando JWT.
+## Funcionalidades
+
+- Cadastro de usuários.
+- Autenticação com JWT.
+- Consulta, atualização e remoção de usuários.
 - Cadastro, consulta, atualização e remoção de pets.
 - Registro de adoções.
-- Controle de acesso baseado em perfis de usuário (`admin` e `adopter`).
-- Proteção de rotas através de autenticação e autorização.
+- Controle de acesso por perfil (`admin` e `adopter`).
+- Proteção de rotas por autenticação e autorização.
 
-### Regras de negócio
+## Regras de negócio
 
 - Usuários podem se cadastrar e realizar login.
 - Apenas administradores podem gerenciar pets.
 - Apenas administradores podem listar todos os usuários.
-- Usuários podem visualizar e atualizar apenas seus próprios dados.
+- Usuários podem consultar e atualizar apenas os próprios dados.
 - Apenas usuários com perfil `adopter` podem realizar adoções.
 - Apenas pets com status `available` podem ser adotados.
-- Pets adotados têm seu status alterado automaticamente para `adopted`.
-
----
+- Ao ser adotado, o pet tem seu status alterado para `adopted`.
 
 ## Tecnologias utilizadas
 
@@ -37,8 +39,6 @@ O sistema permite:
 - ESLint
 - Prettier
 - Nodemon
-
----
 
 ## Instalação
 
@@ -55,8 +55,6 @@ Instale as dependências:
 npm install
 ```
 
----
-
 ## Configuração
 
 Crie um arquivo `.env` na raiz do projeto:
@@ -67,13 +65,21 @@ PORT=3000
 DB_HOST=localhost
 DB_PORT=3306
 DB_USER=root
-DB_PASSWORD=123
+DB_PASSWORD=
 DB_NAME=pets_db
 
 JWT_SECRET=sua_chave_secreta
 ```
 
----
+## Inicialização do banco de dados
+
+O projeto possui um script que cria automaticamente o banco de dados e as tabelas necessárias.
+
+Execute:
+
+```bash
+npm run init-db
+```
 
 ## Execução
 
@@ -95,11 +101,9 @@ A API ficará disponível em:
 http://localhost:3000
 ```
 
----
-
 ## Estrutura do banco de dados
 
-O sistema utiliza um banco de dados MySQL chamado `pets_db`, composto por três tabelas principais: `users`, `pets` e `adoptions`.
+O sistema utiliza um banco de dados MySQL chamado `pets_db`, composto por três tabelas principais.
 
 ### Tabela `users`
 
@@ -113,8 +117,6 @@ Armazena os usuários do sistema.
 | password | VARCHAR(255) | NOT NULL           |
 | phone    | VARCHAR(20)  |                    |
 | role     | VARCHAR(20)  | NOT NULL           |
-
----
 
 ### Tabela `pets`
 
@@ -130,8 +132,6 @@ Armazena os pets cadastrados para adoção.
 | status      | VARCHAR(20)  | NOT NULL           |
 | description | TEXT         |                    |
 
----
-
 ### Tabela `adoptions`
 
 Armazena os registros de adoção realizados pelos usuários.
@@ -143,33 +143,29 @@ Armazena os registros de adoção realizados pelos usuários.
 | pet_id        | INT  | FK → pets(id), NOT NULL  |
 | adoption_date | DATE | NOT NULL                 |
 
----
-
 ## Autenticação
 
-A API utiliza JWT para proteger rotas privadas.
+A API utiliza JSON Web Tokens (JWT) para proteger rotas privadas.
 
-Após realizar login, utilize o token retornado no cabeçalho das requisições:
+Após realizar login, envie o token no cabeçalho das requisições:
 
 ```http
 Authorization: Bearer <token>
 ```
 
----
-
 ## Perfis de acesso
 
 ### Admin
 
-- Listar usuários
-- Buscar usuários
-- Atualizar usuários
-- Excluir usuários
-- Gerenciar pets
-- Listar adoções
+- Listar usuários.
+- Buscar usuários por ID.
+- Atualizar usuários.
+- Excluir usuários.
+- Gerenciar pets.
+- Listar adoções.
 
 ### Adopter
 
-- Consultar próprios dados
-- Atualizar próprios dados
-- Adotar pets disponíveis
+- Consultar os próprios dados.
+- Atualizar os próprios dados.
+- Adotar pets disponíveis.
